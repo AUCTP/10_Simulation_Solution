@@ -10,8 +10,11 @@ In this task, we want to update our program from task 1 to control the random nu
 ## Task 3 - Make
 In this task, you should should write a program to simulate the outcome of a simple betting game. In this game, a player as well as the bank roll a die. If the player has a higher number the player wins 1€. If the bank has a higher number or both numbers are equal the player loses 1€. Assume a starting capital of 100€ and evaluate how many rounds a player can play until he runs out of money. Visualize the distribution of the number of rounds played using a histogram.
 
-# 2 - Roulette
-In this make task, you want to simulate the game of (European) roulette. In this game, the table contains the numbers from 0 to 36 and each number has the same probability to be rolled. In number ranges from 1 to 10 and 19 to 28, odd numbers are red and even are black. In ranges from 11 to 18 and 29 to 36, odd numbers are black and even are red. The number 0 has the color green. 
+# 2 - Racquetball simulation
+In this task, we will develop a simulation for the game Racquetball using a Top-Down design approach.
+
+# 3 - Roulette
+In this make tasks, you want to simulate the game of (European) roulette. In this game, the table contains the numbers from 0 to 36 and each number has the same probability to be rolled. In number ranges from 1 to 10 and 19 to 28, odd numbers are red and even are black. In ranges from 11 to 18 and 29 to 36, odd numbers are black and even are red. The number 0 has the color green. 
 
 ### Task 1 - Evaluate standard betting options
 In this task, we focus on two common betting options with the following payouts:
