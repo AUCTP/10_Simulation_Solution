@@ -1,1 +1,0 @@
-# Write a print statement to output a joke that appears on multiple lines.
