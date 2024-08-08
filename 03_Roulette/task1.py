@@ -1,51 +1,67 @@
 import random
 import numpy as np
 
-def check_color(number):
-    if number == 0:
-        return 'green'
-    elif (number <= 10) or (number >= 19 and number <= 28):
-        if number % 2 == 0:
-            return 'black'
-        else:
-            return 'red'
-    else:
-        if number % 2 == 0:
-            return 'red'
-        else:
-            return 'black'
-    
-def bet_number(bet, number):
-    result = random.randint(0,36)
-    if number == result:
+def simulate_n_games(n, bet, strategy):
+    outcomes = []
+    for i in range(n):
+        if strategy == 0:
+            outcome = straight_bet_one_game(bet)
+            outcomes.append(outcome)
+        elif strategy == 1:
+            outcome = color_bet_one_game(bet)
+            outcomes.append(outcome)
+        elif strategy == 2:
+            outcome = martingale_one_game(bet, maxBet)
+            outcomes.append(outcome)
+    avgReturn = np.mean(outcomes)
+    return avgReturn
+
+def straight_bet_one_game(bet):
+    player = random.randint(0,36)
+    casino = random.randint(0,36)
+    if player == casino:
         return 35 * bet
     else:
         return -bet
-    
-def evaluate_straight_bet(bet, number, n):
-    results = []
-    for i in range(n):
-        result = bet_number(bet, number)
-        results.append(result)
-    return np.mean(results)
 
-def bet_color(bet, color):
-    result = random.randint(0, 36)
-    resultColor = check_color(result)
-    if color == resultColor:
+def color_bet_one_game(bet):
+    player = random.choice(['red', 'black'])
+    casinoNumber = random.randint(0,36)
+    casino = get_color(casinoNumber)
+    if player == casino:
         return bet
     else:
         return -bet
+    
+def get_color(number):
+    if number == 0:
+        return 'green'
+    elif number <= 10 or (number >= 19 and number <= 28):
+        if number % 2 == 0:
+            return 'black'
+        else:
+            return 'red'
+    else:
+        if number % 2 == 0:
+            return 'red'
+        else:
+            return 'black'
 
-def evaluate_color_bet(bet, color, n):
-    results = []
-    for i in range(n):
-        result = bet_color(bet, color)
-        results.append(result)
-    return np.mean(results)
 
-avgProfit = evaluate_straight_bet(1, 10, 1000000)
-print(f'Straight bet: {avgProfit}')
-
-avgProfit = evaluate_color_bet(1, 'black', 100000)
-print(f'Color bet: {avgProfit}')
+def martingale_one_game(bet, maxBet):
+    profit = 0
+    while bet <= maxBet:
+        outcome = color_bet_one_game(bet)
+        profit += outcome
+        if outcome == bet:
+            break
+        else:
+            bet *= 2
+    return profit
+    
+n = 10000000
+bet = 1
+strategy = 2
+maxBet = 10000
+avgReturn = simulate_n_games(n, bet, strategy)
+print(f'Avg. Return of betting {bet}€: {avgReturn}')

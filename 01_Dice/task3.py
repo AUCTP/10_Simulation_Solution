@@ -1,34 +1,36 @@
 import random
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def play_game(capital):
+def play_one_session(capital, seed):
     rounds = 0
+    random.seed(seed)
     while capital > 0:
+        rounds += 1
         player = random.randint(1,6)
         bank = random.randint(1,6)
         if player > bank:
             capital += 1
         else:
             capital -= 1
-        rounds += 1
     return rounds
 
-def play_games(capital, n, seeds):
-    rounds = []
-    for seed in seeds:
-        random.seed(seed)
-        for i in range(n):
-            result = play_game(capital)
-            rounds.append(result)
-    return rounds
+n = 10000
+capital = 100
+results = []
+for i in range(n):
+    rounds = play_one_session(capital, i)
+    results.append(rounds)
 
-seeds = range(10)
-rounds = play_games(100, 1000, seeds)
+avg = np.mean(results)
+min = np.min(results)
+max = np.max(results)
+print(f'Min: {min} Avg: {avg} Max: {max}')
 
-results = pd.DataFrame({'rounds': rounds})
-results.plot(kind='hist', column='rounds')
+df = pd.DataFrame({
+    'rounds': results
+})
+
+df['rounds'].plot(kind='hist')
 plt.savefig('01_Dice/rounds.png')
-        
-
-

@@ -1,14 +1,13 @@
 import random
 
 def print_intro():
-    print('This program simulates a game called racquetball.')
-    print('Two players (A and B) with different skill levels will compete and the program will analyze the winning probabilities for both players')
-
+    print('Welcome to the Racquetball simulator. This program will simulate the winning probabilities of 2 players.')
+    
 def get_inputs():
-    print('Enter the chance of winning while serving')
+    print('Enter winning probabilities for a serve.')
     probA = float(input('Player A: '))
     probB = float(input('Player B: '))
-    n = int(input('Number of simulation runs: '))
+    n = int(input('Number of games to simulate: '))
     return probA, probB, n
 
 def sim_n_games(probA, probB, n):
@@ -25,27 +24,32 @@ def sim_n_games(probA, probB, n):
 def sim_one_game(probA, probB):
     scoreA = 0
     scoreB = 0
-    serving = random.choice(['A', 'B'])
+    serving = random.choice(['playerA', 'playerB'])
     while scoreA < 15 and scoreB < 15:
-        if serving == 'A':
-            if random.random() < probA:
+        if serving == 'playerA':
+            if random.random() <= probA:
                 scoreA += 1
             else:
-                serving = 'B'
+                serving = 'playerB'
         else:
-            if random.random() < probB:
+            if random.random() <= probB:
                 scoreB += 1
             else:
-                serving = 'A'
+                serving = 'playerA'
     return scoreA, scoreB
 
 def print_summary(winsA, winsB):
     games = winsA + winsB
-    print(f'Simulated games: {games}')
-    print(f'Wins Player A: {winsA} ({100 * winsA/games}%)')
-    print(f'Wins Player B: {winsB} ({100 * winsB/games}%)')
+    shareA = winsA/games * 100
+    shareB = winsB/games * 100
+    print(30*'\033[1m-\033[0m')
+    print('\033[1mSummary of the simulation\033[0m')
+    print(f'Player A: {winsA} ({shareA:.2f}%)')
+    print(f'Player B: {winsB} ({shareB:.2f}%)')
+    print(30*'\033[1m-\033[0m')
 
-# Main Program
+
+# MAIN
 print_intro()
 probA, probB, n = get_inputs()
 winsA, winsB = sim_n_games(probA, probB, n)
